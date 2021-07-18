@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import React, { useState, useCallback } from 'react';
+import Todo from './components/Todo';
+import Number from './components/Number';
+import Counter from './components/Counter';
+import User from './components/User';
 import './App.css';
 
 function App() {
+  console.log('Render App');
+  const [items, setItems] = useState([
+    '1. Some todo',
+    '2. Some todo',
+    '3. Some todo',
+  ]);
+
+  const [number, setNumber] = useState(0);
+
+  const add = useCallback(() => {
+    setItems(() => [...items, 'New todo']);
+  }, [items, setItems]);
+
+  const increase = useCallback(() => {
+    setNumber(number + 1);
+  }, [number, setNumber]);
+
+  const decrease = useCallback(() => {
+    setNumber(number - 1);
+  }, [number, setNumber]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Todo items={items} add={add} />
+      <Number number={number} />
+      <Counter incr={increase} decr={decrease} />
+      <User />
     </div>
   );
 }
